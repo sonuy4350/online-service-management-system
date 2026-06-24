@@ -187,25 +187,6 @@ http://127.0.0.1:5000
 - AI-based engineer recommendation
 - Real-time notifications
 
----
-
-## 📸 Screenshots
-
-Add screenshots of:
-- Home Page
-- Login Page
-- Admin Dashboard
-- User Dashboard
-- Engineer Dashboard
-
-Example:
-
-```md
-![Home Page](screenshots/home.png)
-```
-
----
-
 ## 👨‍💻 Author
 
 **Sonu Kumar Yadav**
