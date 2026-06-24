@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <h3>📜 Service History - {{ customer.name }}</h3>
+
+  {% if requests %}
+    <ul class="list-group">
+      {% for r in requests %}
+        <li class="list-group-item">
+          <strong>#{{ r.id }} - {{ r.device_type }}</strong>
+          <span class="badge bg-secondary">{{ r.status }}</span>
+          <br>
+          Description: {{ r.description }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No service history found.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

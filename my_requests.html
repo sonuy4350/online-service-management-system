@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}My Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-info fw-bold">📂 My Service Requests</h2>
+    <a href="{{ url_for('new_request') }}" class="btn btn-gradient shadow-sm">
+      ➕ New Request
+    </a>
+  </div>
+
+  {% if reqs %}
+    <!-- Requests Grid -->
+    <div class="row">
+      {% for r in reqs %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card shadow-sm h-100 border-0 rounded-3 hover-shadow">
+            <!-- Header -->
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+              <span class="fw-bold text-primary">
+                {{ r.device_type }} - {{ r.brand or "N/A" }}
+              </span>
+              <span class="badge 
+                {% if r.approval_status == 'waiting' %} bg-warning text-dark
+                {% elif r.approval_status == 'approved' %} bg-success
+                {% elif r.approval_status == 'rejected' %} bg-danger
+                {% else %} bg-secondary {% endif %}">
+                {{ r.approval_status|capitalize }}
+              </span>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+              <p><strong>📌 Model:</strong> {{ r.model_no or "N/A" }}</p>
+              <p><strong>📝 Issue:</strong> {{ r.description }}</p>
+              <p><strong>📅 Created:</strong> {{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+
+              {% if r.assigned_engineer %}
+                <p class="mb-1">
+                  <strong>👨‍🔧 Engineer:</strong> {{ r.assigned_engineer.name }}<br>
+                  <small class="text-muted">{{ r.assigned_engineer.email }}</small>
+                </p>
+              {% endif %}
+
+              {% if r.receipt %}
+                <a href="{{ url_for('view_receipt', receipt_id=r.receipt.id) }}" 
+                   class="btn btn-sm btn-outline-success w-100 mt-2">
+                  💵 View Receipt
+                </a>
+              {% endif %}
+            </div>
+
+            <!-- Footer -->
+            <div class="card-footer text-center">
+              <button class="btn btn-sm btn-outline-primary" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target="#details{{ r.id }}">
+                🔎 View More
+              </button>
+            </div>
+
+            <!-- Collapsible Details -->
+            <div id="details{{ r.id }}" class="collapse px-3 pb-3">
+              <div class="border-top pt-2 small text-muted">
+                <p><strong>Request ID:</strong> #{{ r.id }}</p>
+                <p><strong>Status:</strong> {{ r.status|capitalize }}</p>
+                <p><strong>Approval:</strong> {{ r.approval_status|capitalize }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <!-- Empty State -->
+    <div class="alert alert-info text-center shadow-sm p-4">
+      <h5 class="fw-bold">No Service Requests Yet 🚫</h5>
+      <p class="mb-3">Looks like you haven’t created a request.</p>
+      <a href="{{ url_for('new_request') }}" class="btn btn-sm btn-gradient">➕ Create One</a>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Hover Effect -->
+<style>
+  .hover-shadow:hover {
+    transform: translateY(-3px);
+    transition: 0.3s;
+    box-shadow: 0px 6px 15px rgba(0,0,0,0.15) !important;
+  }
+</style>
+{% endblock %}

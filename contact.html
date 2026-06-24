@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Contact SmartFix Service Centre</h2>
+<hr>
+
+<p>
+We are here to help you with any service-related queries,
+complaints, or feedback. Feel free to reach out to us.
+</p>
+
+<h3>📞 Customer Support Details</h3>
+<p><strong>Phone:</strong> +91 9876543210</p>
+<p><strong>Email:</strong> support@smartfix.com</p>
+<p><strong>Address:</strong> Mira Bhayandar, Mumbai, Maharashtra</p>
+<p><strong>Working Hours:</strong> Monday – Saturday (9:00 AM – 7:00 PM)</p>
+
+<hr>
+
+<h3>📩 Send Us a Message</h3>
+
+<form method="POST">
+    <label><strong>Full Name:</strong></label><br>
+    <input type="text" name="name" required style="width: 300px;"><br><br>
+
+    <label><strong>Email Address:</strong></label><br>
+    <input type="email" name="email" required style="width: 300px;"><br><br>
+
+    <label><strong>Your Message:</strong></label><br>
+    <textarea name="message" rows="5" required style="width: 400px;"></textarea><br><br>
+
+    <button type="submit">Send Message</button>
+</form>
+
+{% endblock %}

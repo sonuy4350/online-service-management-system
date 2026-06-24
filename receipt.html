@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Receipt #{{ receipt.id }}</h2>
+  <p>Request ID: {{ receipt.service_request_id }}</p>
+  <p>Amount: ₹{{ "%.2f"|format(receipt.amount) }}</p>
+  <p>Payment: {{ receipt.payment_method }}</p>
+  <p>Details: {{ receipt.details }}</p>
+  <p>Generated: {{ receipt.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+{% endblock %}

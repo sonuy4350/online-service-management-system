@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Welcome, {{ current_user.name }}</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <h5 class="card-title">New Request</h5>
+                <p class="card-text">Submit a new service request for your device.</p>
+                <a href="{{ url_for('new_request') }}" class="btn btn-success">Create Request</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <h5 class="card-title">My Requests</h5>
+                <p class="card-text">View all your service requests and their status.</p>
+                <a href="{{ url_for('my_requests') }}" class="btn btn-info">View Requests</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <h5 class="card-title">Receipts</h5>
+                <p class="card-text">Download service receipts for completed requests.</p>
+                <a href="{{ url_for('receipt') }}" class="btn btn-warning">View Receipts</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

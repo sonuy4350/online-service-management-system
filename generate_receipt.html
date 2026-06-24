@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Generate Receipt for Request #{{ sr.id }}</h2>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <p>{{ form.amount.label }}<br>{{ form.amount() }}</p>
+    <p>{{ form.payment_method.label }}<br>{{ form.payment_method() }}</p>
+    <p>{{ form.details.label }}<br>{{ form.details(rows=4) }}</p>
+    <p>{{ form.submit() }}</p>
+  </form>
+{% endblock %}

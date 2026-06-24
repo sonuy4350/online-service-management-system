@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Admin Dashboard</h2>
+  <a class="btn btn-primary mb-3" href="{{ url_for('admin_search') }}">🔍 Search Requests</a>
+
+  <!-- Pending Approvals -->
+  <div class="card mb-3">
+    <div class="card-header bg-warning text-dark" data-bs-toggle="collapse" href="#pendingSection" style="cursor:pointer;">
+      Pending Approvals
+      <span class="badge bg-dark">{{ pending_requests|length }}</span>
+    </div>
+    <div id="pendingSection" class="collapse show">
+      <div class="card-body">
+        {% if pending_requests %}
+          <ul class="list-group">
+            {% for r in pending_requests %}
+              <li class="list-group-item">
+                <strong>#{{ r.id }} - {{ r.device_type }}</strong>
+                <span class="badge bg-secondary">{{ r.status }}</span>
+                <br>
+                User: {{ r.user.name }}
+                <a class="btn btn-sm btn-outline-info ms-2"
+                    href="{{ url_for('customer_history', user_id=r.user.id) }}">
+                    📜 View History
+                </a>
+                <br>
+                Description: {{ r.description }} <br><br>
+
+                <a class="btn btn-success btn-sm" href="{{ url_for('approve_request', request_id=r.id) }}">✅ Approve</a>
+                <a class="btn btn-danger btn-sm" href="{{ url_for('reject_request', request_id=r.id) }}">❌ Reject</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No pending approvals.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Approved Requests -->
+  <div class="card mb-3">
+    <div class="card-header bg-success text-white" data-bs-toggle="collapse" href="#approvedSection" style="cursor:pointer;">
+      Approved Requests (Assign Engineer)
+      <span class="badge bg-dark">{{ approved_requests|length }}</span>
+    </div>
+    <div id="approvedSection" class="collapse show">
+      <div class="card-body">
+        {% if approved_requests %}
+          <ul class="list-group">
+            {% for r in approved_requests %}
+              <li class="list-group-item">
+                <strong>#{{ r.id }} - {{ r.device_type }}</strong>
+                <span class="badge bg-secondary">{{ r.status }}</span>
+                <br>
+                User: {{ r.user.name }}
+                <a class="btn btn-sm btn-outline-info ms-2"
+                  href="{{ url_for('customer_history', user_id=r.user.id) }}">
+                  📜 View History
+                </a>
+                <br>
+                Description: {{ r.description }} <br><br>
+
+                {% if r.assigned_engineer %}
+                  <span class="badge bg-info text-dark">👨‍🔧 {{ r.assigned_engineer.name }}</span>
+                {% else %}
+                  <a class="btn btn-primary btn-sm" href="{{ url_for('assign_engineer', request_id=r.id) }}">👨‍🔧 Assign Engineer</a>
+                {% endif %}
+                {% if not r.receipt and r.status != 'pending' %}
+                  <a class="btn btn-warning btn-sm" href="{{ url_for('generate_receipt', request_id=r.id) }}">💳 Generate Receipt</a>
+                {% endif %}
+                {% if r.receipt %}
+                  <a class="btn btn-info btn-sm" href="{{ url_for('view_receipt', receipt_id=r.receipt.id) }}">📄 Receipt #{{ r.receipt.id }}</a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No approved requests yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optional: Bootstrap Collapse JS -->
+<script>
+  var collapseElements = document.querySelectorAll('[data-bs-toggle="collapse"]');
+  collapseElements.forEach(function(el) {
+    el.addEventListener('click', function() {
+      var target = document.querySelector(el.getAttribute('href'));
+      if (target) target.classList.toggle('show');
+    });
+  });
+</script>
+{% endblock %}

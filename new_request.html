@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}New Service Request{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg border-0 p-4">
+        <h2 class="mb-4 text-center text-info">🛠️ Create New Service Request</h2>
+
+        <form method="POST">
+          {{ form.hidden_tag() }}
+
+          <!-- Device Type -->
+          <div class="mb-3">
+            {{ form.device_type.label(class="form-label fw-bold") }}
+            {{ form.device_type(class="form-select") }}
+          </div>
+
+          <!-- Brand -->
+          <div class="mb-3">
+            {{ form.brand.label(class="form-label fw-bold") }}
+            {{ form.brand(class="form-control", placeholder="e.g., Samsung, LG, Dell") }}
+          </div>
+
+          <!-- Model Number -->
+          <div class="mb-3">
+            {{ form.model_no.label(class="form-label fw-bold") }}
+            {{ form.model_no(class="form-control", placeholder="e.g., XYZ123") }}
+          </div>
+
+          <!-- Problem Description -->
+          <div class="mb-3">
+            {{ form.description.label(class="form-label fw-bold") }}
+            {{ form.description(class="form-control", rows="4", maxlength="250", oninput="updateCount()") }}
+            <div class="text-end small text-muted">
+              <span id="charCount">0</span>/250 characters
+            </div>
+          </div>
+
+          <!-- Live Preview -->
+          <div class="mb-3">
+            <h5 class="fw-bold text-secondary">📋 Live Preview:</h5>
+            <div id="previewBox" class="p-3 rounded bg-light text-dark border">
+              <em>Fill the form to see your request preview here...</em>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="d-grid">
+            {{ form.submit(class="btn btn-gradient btn-lg") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS for interactivity -->
+<script>
+function updateCount() {
+  const desc = document.getElementById("description").value || "";
+  const charCount = document.getElementById("charCount");
+  charCount.textContent = desc.length;
+
+  const service = document.getElementById("device_type").value;
+  const brand = document.getElementById("brand").value;
+  const model = document.getElementById("model_no").value;
+
+  const preview = document.getElementById("previewBox");
+  preview.innerHTML = `
+    <strong>Device:</strong> ${service || "Not selected"}<br>
+    <strong>Brand:</strong> ${brand || "Not provided"}<br>
+    <strong>Model:</strong> ${model || "Not provided"}<br>
+    <strong>Description:</strong> ${desc || "No description yet"}
+  `;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("#device_type, #brand, #model_no, #description")
+    .forEach(el => el.addEventListener("input", updateCount));
+});
+</script>
+{% endblock %}

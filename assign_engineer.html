@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Assign Engineer for Request #{{ sr.id }}</h2>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Device:</strong> {{ sr.device_type }}</p>
+            <p><strong>Brand:</strong> {{ sr.brand or "N/A" }}</p>
+            <p><strong>Model:</strong> {{ sr.model_no or "N/A" }}</p>
+            <p><strong>Description:</strong> {{ sr.description }}</p>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="specialityFilter" class="form-label"><strong>Filter Engineers by Speciality:</strong></label>
+        <select id="specialityFilter" class="form-select">
+            <option value="all">All</option>
+            {% for e in form.engineer_id.choices %}
+                {% set speciality = e[1].split(' - ')[1] if ' - ' in e[1] else 'General' %}
+                <option value="{{ speciality }}">{{ speciality }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <form method="POST" id="assignForm">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.engineer_id.label(class="form-label") }}
+            {{ form.engineer_id(class="form-select", id="engineerSelect") }}
+        </div>
+
+        <div id="engineerInfo" class="alert alert-info d-none"></div>
+
+        <div class="mb-3">
+            {{ form.submit(class="btn btn-success") }}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const select = document.getElementById("engineerSelect");
+    const infoBox = document.getElementById("engineerInfo");
+    const filter = document.getElementById("specialityFilter");
+    const engineerDetails = {{ engineer_details_json | safe }};
+
+    // Filter engineers by speciality
+    filter.addEventListener("change", function() {
+        const selectedSpeciality = filter.value.toLowerCase();
+        select.innerHTML = "";
+
+        engineerDetails.forEach(e => {
+            const speciality = e[1].split(' - ')[1]?.toLowerCase() || 'general';
+            if (selectedSpeciality === "all" || speciality.includes(selectedSpeciality)) {
+                const option = document.createElement("option");
+                option.value = e[0];
+                option.textContent = e[1];
+                select.appendChild(option);
+            }
+        });
+
+        infoBox.classList.add("d-none");
+    });
+
+    // Show selected engineer info
+    select.addEventListener("change", function() {
+        const selected = select.value;
+        const engineer = engineerDetails.find(e => e[0] == selected);
+        if (engineer) {
+            infoBox.textContent = "You selected: " + engineer[1];
+            infoBox.classList.remove("d-none");
+        } else {
+            infoBox.classList.add("d-none");
+        }
+    });
+});
+</script>
+{% endblock %}

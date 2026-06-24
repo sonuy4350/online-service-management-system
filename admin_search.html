@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Admin Search</h2>
+  <form method="get">
+    <input name="q" value="{{ q }}" placeholder="Search device or description">
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+  {% for r in results %}
+    <li>#{{ r.id }} - {{ r.device_type }} - {{ r.description[:100] }}</li>
+  {% else %}
+    <li>No results.</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

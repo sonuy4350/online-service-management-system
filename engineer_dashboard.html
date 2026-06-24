@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Engineer Dashboard</h2>
+
+  {% if reqs %}
+    <ul>
+      {% for r in reqs %}
+        <li style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+          
+          <strong>Request #{{ r.id }}:</strong> {{ r.device_type }} - {{ r.status }} <br>
+          <strong>Requested by:</strong> {{ r.requester.name }} <br>
+          <strong>Description:</strong> {{ r.description }} <br>
+
+          {% if r.work_done %}
+            <strong>Work Done:</strong> {{ r.work_done }}
+
+          {% elif r.status == 'assigned' %}
+            <form method="POST" action="{{ url_for('engineer_request_detail', request_id=r.id) }}">
+
+              <div>
+                <label>Describe your work:</label><br>
+                <textarea name="work_done" rows="3" cols="50" required></textarea>
+              </div>
+
+              <input type="hidden" name="status" value="done">
+
+              <div style="margin-top: 8px;">
+                <button type="submit">Mark Work as Done</button>
+              </div>
+            </form>
+
+          {% else %}
+            <em>Waiting for admin action.</em>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No assigned requests.</p>
+  {% endif %}
+
+{% endblock %}

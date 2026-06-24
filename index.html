@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Home | SmartFix Service Centre{% endblock %}
+
+{% block content %}
+
+<style>
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url("{{ url_for('static', filename='images/home.jpg') }}") no-repeat center center/cover;
+    border-radius: 20px;
+    color: white;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 55px;
+    font-weight: 700;
+}
+
+.hero-title span {
+    color: #00bfff;
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+.section-title {
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.icon-img {
+    width: 80px;
+}
+</style>
+
+
+<!-- ================= HERO SECTION ================= -->
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">
+            Welcome to <span>SmartFix Service Centre</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            Fast, Reliable & Professional Repair Services for TVs, Refrigerators,
+            Washing Machines, Laptops & More
+        </p>
+
+        <div class="mt-4">
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg me-3">Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg">Register</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- ================= ABOUT SHORT SECTION ================= -->
+<div class="container my-5">
+    <div class="text-center">
+        <h2 class="section-title">Who We Are</h2>
+        <p class="lead">
+            SmartFix Service Centre is a modern appliance repair platform that allows customers
+            to raise service requests, track engineer assignments, and receive digital receipts —
+            all in one system.
+        </p>
+    </div>
+</div>
+
+
+<!-- ================= SERVICES SECTION ================= -->
+<div class="container my-5">
+    <h2 class="text-center section-title">Our Core Services</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm text-center p-4">
+                <img src="https://img.icons8.com/ios-filled/100/000000/tv.png"
+                     class="mx-auto d-block icon-img" alt="TV Repair">
+                <h5 class="mt-3">TV Repair</h5>
+                <p>
+                    LED, LCD, Smart TVs – We provide complete diagnosis,
+                    screen repair, motherboard fixing & installation services.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm text-center p-4">
+                <img src="https://img.icons8.com/ios-filled/100/000000/fridge.png"
+                     class="mx-auto d-block icon-img" alt="Fridge Repair">
+                <h5 class="mt-3">Refrigerator Service</h5>
+                <p>
+                    Gas refill, cooling issues, compressor repair and
+                    preventive maintenance at affordable pricing.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm text-center p-4">
+                <img src="https://img.icons8.com/ios-filled/100/000000/laptop.png"
+                     class="mx-auto d-block icon-img" alt="Laptop Repair">
+                <h5 class="mt-3">Laptop & Mobile Repair</h5>
+                <p>
+                    Hardware repair, screen replacement, OS installation,
+                    virus removal & performance optimization.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= WHY CHOOSE US ================= -->
+<div class="container my-5">
+    <h2 class="text-center section-title">Why Choose SmartFix?</h2>
+
+    <div class="row text-center mt-4">
+
+        <div class="col-md-3">
+            <h5>✔ Certified Engineers</h5>
+            <p>Skilled and experienced technical professionals.</p>
+        </div>
+
+        <div class="col-md-3">
+            <h5>✔ Transparent Pricing</h5>
+            <p>No hidden charges, clear billing system.</p>
+        </div>
+
+        <div class="col-md-3">
+            <h5>✔ Quick Response</h5>
+            <p>Fast service allocation and status tracking.</p>
+        </div>
+
+        <div class="col-md-3">
+            <h5>✔ Digital Management</h5>
+            <p>Online request tracking & receipt generation.</p>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= CALL TO ACTION ================= -->
+<div class="text-center my-5">
+    <h2 class="fw-bold">Need Appliance Repair?</h2>
+    <p class="lead">
+        Submit your service request online and our engineer will be assigned shortly.
+    </p>
+    <a href="{{ url_for('new_request') }}" class="btn btn-success btn-lg">
+        Request Service Now
+    </a>
+</div>
+
+{% endblock %}
